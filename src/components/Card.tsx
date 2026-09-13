@@ -1,7 +1,16 @@
 import Image from "next/image";
 import InteractiveCard from "./InteractiveCard";
+import { useState } from "react";
+import { Rating } from "@mui/material";
 
-export default function Card({ venueName, imgSrc } : { venueName:string, imgSrc:string }) {
+interface CardProps {
+    venueName: string;
+    imgSrc: string;
+    onRatingChange?: (newRating: number | null) => void; 
+}
+
+export default function Card({ venueName, imgSrc, onRatingChange } : CardProps) {
+    const ratingName:string = venueName + " Rating";
     return (
         <InteractiveCard>
             <div className="w-full h-[60%] relative bg-white">
@@ -18,9 +27,10 @@ export default function Card({ venueName, imgSrc } : { venueName:string, imgSrc:
                 </div>
             </div>
             
-            {/*Was once a description*/}
-            <div className="w-full h-[40%] p-[10px]"> 
-                <p></p>
+            <div className="w-full h-[40%] p-[10px] flex justify-center"> 
+                <Rating id={ratingName} name={ratingName} data-testid={ratingName}
+                onChange={(event, newValue) => {if (onRatingChange) onRatingChange(newValue);}}
+                />
             </div>
             
         </InteractiveCard>
